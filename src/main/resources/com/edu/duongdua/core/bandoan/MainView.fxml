@@ -32,7 +32,14 @@
          <font>
             <Font size="20.0" />
          </font></TextField>
-      <ToolBar fx:id="tbDishlist" layoutX="57.0" layoutY="114.0" prefHeight="58.0" prefWidth="1186.0" />
+      <ToolBar fx:id="tbDishlist" layoutX="57.0" layoutY="114.0" prefHeight="58.0" prefWidth="1186.0">
+         <items>
+            <Button minHeight="42.0" minWidth="97.0" mnemonicParsing="false" onAction="#OnActionResetDishesTable" text="Reset">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Button>
+         </items></ToolBar>
       <TableView fx:id="tblDiscounts" layoutX="836.0" layoutY="244.0" prefHeight="431.0" prefWidth="408.0">
          <columns>
             <TableColumn fx:id="discountId" prefWidth="29.0" text="Id" />
@@ -46,11 +53,11 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <Button layoutX="1101.0" layoutY="35.0" mnemonicParsing="false" prefHeight="57.0" prefWidth="143.0" text="Xóa">
+      <Button layoutX="1101.0" layoutY="35.0" mnemonicParsing="false" onAction="#OnActionDeleteDish" prefHeight="57.0" prefWidth="143.0" text="Xóa">
          <font>
             <Font size="20.0" />
          </font></Button>
-      <Button layoutX="940.0" layoutY="35.0" mnemonicParsing="false" prefHeight="57.0" prefWidth="143.0" text="Sửa">
+      <Button layoutX="951.0" layoutY="35.0" mnemonicParsing="false" onAction="#OnActionLoadModal" prefHeight="57.0" prefWidth="143.0" text="Sửa">
          <font>
             <Font size="20.0" />
          </font></Button>
@@ -68,5 +75,10 @@
             <Font size="27.0" />
          </font>
       </Label>
+      <Button layoutX="802.0" layoutY="35.0" mnemonicParsing="false" onAction="#OnActionLoadModal" prefHeight="57.0" prefWidth="143.0" text="Thêm">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

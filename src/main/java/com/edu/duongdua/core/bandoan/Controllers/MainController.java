@@ -1,5 +1,6 @@
 package com.edu.duongdua.core.bandoan.Controllers;
 
+import com.edu.duongdua.core.bandoan.Main;
 import com.edu.duongdua.core.bandoan.Models.Connector;
 import com.edu.duongdua.core.bandoan.Models.Discount;
 import com.edu.duongdua.core.bandoan.Models.Dish;
@@ -9,11 +10,18 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Font;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -66,8 +74,7 @@ public class MainController implements Initializable
         }
     }
 
-    public ResultSet SearchDishes() {
-        String searchText = searchBox.getText();
+    public ResultSet SearchDishes(String searchText) {
         String sql = "SELECT * FROM dishes WHERE name LIKE '%" + searchText + "%'";
         PreparedStatement ps;
         try {
@@ -134,7 +141,18 @@ public class MainController implements Initializable
         return dishlist;
     }
 
-    // Init
+    public void DeteleDish(Dish dish) {
+        String sql = "DELETE FROM dishes WHERE id = " + dish.getId();
+        PreparedStatement ps;
+        try {
+            ps = conn.prepareStatement(sql);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    // Init components
     public Button CreateButton(String category) {
         Button button = new Button();
         button.setText(category);
@@ -224,9 +242,16 @@ public class MainController implements Initializable
 
     @FXML
     public void OnActionSearchDishes() {
+        String searchText = searchBox.getText();
         try {
-            ResultSet rs = SearchDishes();
-            RefreshDishTable(rs);
+            if (!searchText.isEmpty() || !searchText.isBlank()) {
+                ResultSet rs = SearchDishes(searchText);
+                RefreshDishTable(rs);
+            } else {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setContentText("Vui lòng nhập từ khóa tìm kiếm!");
+                alert.show();
+            }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -240,6 +265,93 @@ public class MainController implements Initializable
         RefreshDishTable(data);
     }
 
+    @FXML
+    public void OnActionResetDishesTable() {
+        try {
+            ResultSet data = GetDishes();
+            RefreshDishTable(data);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @FXML
+    public void OnActionLoadModal(ActionEvent actionEvent) {
+        Button button = (Button) actionEvent.getSource();
+
+        FXMLLoader loader;
+        Parent root;
+        Stage stage;
+        Scene scene;
+        try {
+            loader = new FXMLLoader(Main.class.getResource("ModalView.fxml"));
+            root = loader.load();
+            stage = new Stage();
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.initStyle(StageStyle.TRANSPARENT);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setResizable(false);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        ModalController modalController = loader.getController();
+        Dish dish = tblDishes.getSelectionModel().getSelectedItem();
+        switch (button.getText()) {
+            case "Thêm":
+                try {
+                    ResultSet rs = GetDishes();
+                    int count = 0;
+                    while (rs.next()) {
+                        count += 1;
+                    }
+                    modalController.InitModalDishId(count + 1);
+                    stage.show();
+                    stage.setOnCloseRequest((_event) -> {
+                        ResultSet data = GetDishes();
+                        RefreshDishTable(data);
+                    });
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+                break;
+            case "Sửa":
+                try {
+                    modalController.setEdit(true);
+                    modalController.InitModal(dish);
+                    stage.show();
+                    stage.setOnCloseRequest((_event) -> {
+                        ResultSet data = GetDishes();
+                        RefreshDishTable(data);
+                    });
+                } catch (Exception e) {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setContentText("Vui lòng chọn món ăn");
+                    alert.show();
+                }
+                break;
+        }
+    }
+
+    @FXML
+    public void OnActionDeleteDish() {
+        try {
+            Dish dish = tblDishes.getSelectionModel().getSelectedItem();
+            DeteleDish(dish);
+            ResultSet data = GetDishes();
+            RefreshDishTable(data);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setContentText("Xóa món ăn thành công!");
+            alert.show();
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setContentText("Vui lòng chọn món ăn để xóa!");
+            alert.show();
+        }
+    }
+
+    // Initialize
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
