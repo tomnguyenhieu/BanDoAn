@@ -5,6 +5,8 @@ public class Dishlist
     private int id;
     private String name;
 
+    public Dishlist() {}
+
     public Dishlist(int id, String name) {
         this.id = id;
         this.name = name;
