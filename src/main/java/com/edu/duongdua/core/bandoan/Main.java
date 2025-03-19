@@ -10,8 +10,6 @@ import java.io.IOException;
 import java.sql.Connection;
 
 public class Main extends Application {
-    private Connection conn;
-
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("MainView.fxml"));
