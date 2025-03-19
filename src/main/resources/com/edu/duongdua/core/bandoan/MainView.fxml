@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.edu.duongdua.core.bandoan.Controllers.MainController">
+   <children>
+      <TableView fx:id="tblDishes" layoutX="57.0" layoutY="198.0" prefHeight="477.0" prefWidth="752.0">
+        <columns>
+          <TableColumn fx:id="dishId" prefWidth="75.0" text="Id" />
+          <TableColumn fx:id="dishName" prefWidth="75.0" text="Name" />
+            <TableColumn fx:id="dishPrice" prefWidth="75.0" text="Price" />
+            <TableColumn fx:id="dishDesc" prefWidth="75.0" text="Desc" />
+            <TableColumn fx:id="dishDishlistId" prefWidth="75.0" text="Dishlist id" />
+            <TableColumn fx:id="dishSize" prefWidth="75.0" text="Size" />
+            <TableColumn fx:id="dishStatus" prefWidth="75.0" text="Status" />
+            <TableColumn fx:id="dishMustTry" prefWidth="75.0" text="Must try" />
+            <TableColumn fx:id="dishQty" prefWidth="75.0" text="Quantity" />
+            <TableColumn fx:id="dishTotalSold" prefWidth="75.0" text="Total sold" />
+        </columns>
+      </TableView>
+      <TextField layoutX="57.0" layoutY="35.0" prefHeight="57.0" prefWidth="536.0" />
+      <ToolBar fx:id="tbDishlist" layoutX="57.0" layoutY="128.0" prefHeight="40.0" prefWidth="1187.0">
+        <items>
+            <Button mnemonicParsing="false" text="Button" />
+        </items>
+      </ToolBar>
+      <TableView fx:id="tblDiscounts" layoutX="836.0" layoutY="198.0" prefHeight="477.0" prefWidth="408.0">
+         <columns>
+            <TableColumn fx:id="discountId" prefWidth="75.0" text="Id" />
+            <TableColumn fx:id="discountDishId" prefWidth="75.0" text="Dish id" />
+            <TableColumn fx:id="discountPrice" prefWidth="75.0" text="Price" />
+            <TableColumn fx:id="discountTime" prefWidth="75.0" text="Time" />
+            <TableColumn fx:id="discountCA" prefWidth="75.0" text="Created at" />
+            <TableColumn fx:id="discountStatus" prefWidth="75.0" text="Status" />
+         </columns>
+      </TableView>
+      <Button layoutX="1101.0" layoutY="35.0" mnemonicParsing="false" prefHeight="57.0" prefWidth="143.0" text="Button" />
+      <Button layoutX="940.0" layoutY="35.0" mnemonicParsing="false" prefHeight="57.0" prefWidth="143.0" text="Button" />
+      <Button layoutX="607.0" layoutY="35.0" mnemonicParsing="false" prefHeight="57.0" prefWidth="143.0" text="Button" />
+   </children>
+</AnchorPane>
